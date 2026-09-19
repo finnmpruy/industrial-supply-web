@@ -18,16 +18,21 @@ export default function Navbar() {
       navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
     }
     setIsSearchOpen(false);
+    setIsMobileMenuOpen(false);
   };
 
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-[#0B1120] border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
+    <header className="sticky top-0 z-50 w-full bg-white dark:bg-[#0B1120] border-b border-slate-200 dark:border-slate-800 transition-colors duration-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
         
         {/* Logo & Judul */}
-        <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+        <Link 
+          to="/" 
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="flex items-center gap-2.5 sm:gap-3 shrink-0"
+        >
           <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-lg sm:text-xl shadow-sm shrink-0">
             ⚙️
           </div>
@@ -64,12 +69,17 @@ export default function Navbar() {
           <a href="/#layanan" className="hover:text-amber-600 dark:hover:text-amber-400 transition">
             Layanan
           </a>
-          <a href="https://wa.me/6285880427199?text=Halo%20Tim%20Sales,%20saya%20ingin%20berkonsultasi." target="_blank" rel="noreferrer" className="hover:text-amber-600 dark:hover:text-amber-400 transition">
+          <a 
+            href="https://wa.me/6285880427199?text=Halo%20Tim%20Sales,%20saya%20ingin%20berkonsultasi." 
+            target="_blank" 
+            rel="noreferrer" 
+            className="hover:text-amber-600 dark:hover:text-amber-400 transition"
+          >
             Hubungi Kami
           </a>
         </nav>
 
-        {/* Action Button & Search Trigger */}
+        {/* Action Button & Toggles */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <button 
             type="button"
@@ -78,9 +88,9 @@ export default function Navbar() {
               setIsMobileMenuOpen(false);
             }}
             aria-label="Pencarian"
-            className="p-1.5 sm:p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+            className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
           >
-            {isSearchOpen ? <X className="w-4 h-4" /> : <Search className="w-4 h-4" />}
+            {isSearchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
           </button>
 
           <button 
@@ -102,6 +112,7 @@ export default function Navbar() {
             Minta Penawaran
           </a>
 
+          {/* Tombol Hamburger Mobile */}
           <button
             type="button"
             onClick={() => {
@@ -109,9 +120,9 @@ export default function Navbar() {
               setIsSearchOpen(false);
             }}
             aria-label="Buka Menu"
-            className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 xl:hidden"
+            className="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition xl:hidden"
           >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isMobileMenuOpen ? <X className="w-6 h-6 text-amber-500" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
@@ -127,7 +138,7 @@ export default function Navbar() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari baut, gasket spiral, workshop tools, atau spesifikasi bahan..."
+                placeholder="Cari baut, gasket spiral, workshop tools..."
                 className="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg pl-10 pr-20 py-2 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
               <button
@@ -137,6 +148,59 @@ export default function Navbar() {
                 Cari
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Dropdown Menu Mobile */}
+      {isMobileMenuOpen && (
+        <div className="xl:hidden w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B1120] px-5 py-4 space-y-3 shadow-xl">
+          <Link 
+            to="/" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className={`block py-2 text-sm font-bold transition ${isActive('/') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
+          >
+            Beranda
+          </Link>
+          <a 
+            href="/#industri" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className="block py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-amber-500"
+          >
+            Industri
+          </a>
+          <a 
+            href="/#equipment" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className="block py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-amber-500"
+          >
+            Equipment
+          </a>
+          <Link 
+            to="/products" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className={`block py-2 text-sm font-bold transition ${isActive('/products') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
+          >
+            Katalog Produk
+          </Link>
+          <a 
+            href="/#layanan" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className="block py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-amber-500"
+          >
+            Layanan
+          </a>
+          
+          <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+            <a 
+              href="https://wa.me/6285880427199?text=Halo%20Tim%20Sales,%20saya%20ingin%20meminta%20penawaran%20harga%20(RFQ)." 
+              target="_blank" 
+              rel="noreferrer"
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className="w-full flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 rounded-lg text-sm transition"
+            >
+              Minta Penawaran (WhatsApp)
+            </a>
           </div>
         </div>
       )}
