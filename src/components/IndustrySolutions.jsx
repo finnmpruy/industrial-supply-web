@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, ChevronRight, Image as ImageIcon } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ChevronRight, Image as ImageIcon, MousePointerClick, X } from 'lucide-react';
 import cementPlantImg from '../assets/cement-plant-bg.png';
 import powerPlantImg from '../assets/power-plant-bg.png';
 
@@ -198,23 +198,99 @@ const equipmentData = {
   },
 };
 
+const equipmentProductMap = {
+  rawmill: [
+    { id: 'pes-bag', name: 'Polyester Dust Collector Bags', category: 'Filtration', spec: 'Tahan abrasi tinggi untuk raw meal dust' },
+    { id: 'galv-cage', name: 'Galvanized Filter Cages', category: 'Support Cage', spec: 'Lapisan Hot-Dip Galvanized 10/12-wire' },
+    { id: 'clamp-band', name: 'Heavy-Duty Clamping Bands', category: 'Fasteners', spec: 'Quick-release clamp stainless steel' },
+    { id: 'airslide-fabric', name: 'Air Slide Canvas Fabric', category: 'Conveying', spec: 'Permeabilitas seragam transfer tepung baku' },
+  ],
+  preheater: [
+    { id: 'fgl-bag', name: 'Woven Fiberglass Filter Bags', category: 'Filtration', spec: 'Ketahanan temperatur continuous hingga 260°C' },
+    { id: 'ptfe-coated', name: 'PTFE Membrane Coated Media', category: 'Filtration', spec: 'Efisiensi penangkapan partikulat submikron' },
+    { id: 'exp-joint', name: 'Expansion Joints & Seals', category: 'Sealing', spec: 'Kompensasi pemuaian termal ducting gas buang' },
+    { id: 'mount-rings', name: 'High-Temp Mounting Rings', category: 'Hardware', spec: 'Paduan baja tahan panas untuk dudukan filter' },
+  ],
+  kiln: [
+    { id: 'aramid-bag', name: 'Aramid / Nomex Filter Bag', category: 'Filtration', spec: 'Ketahanan thermal 200°C–240°C klinker kiln' },
+    { id: 'ss316-cage', name: 'SS316 Filter Cage Star Design', category: 'Support Cage', spec: 'Konstruksi Stainless Steel 316 anti-korosi' },
+    { id: 'ht-bolts', name: 'High Temp Stud Bolts Grade B7', category: 'Fasteners', spec: 'ASTM A193 B7/2H untuk area burner & kiln shell' },
+    { id: 'graphite-gasket', name: 'Gaskets & Expansion Seals', category: 'Sealing', spec: 'Pure flexible graphite untuk sealing flange kiln' },
+  ],
+  cooler: [
+    { id: 'fgl-cooler', name: 'Fiberglass High-Temp Filter Bags', category: 'Filtration', spec: 'Tahan shock thermal pendinginan mendadak klinker' },
+    { id: 'venturi-air', name: 'Venturi Air Injectors', category: 'Accessories', spec: 'Desain aerodinamis pembersihan pulse jet optimal' },
+    { id: 'grate-fasteners', name: 'Cooler Grate Plate Fasteners', category: 'Fasteners', spec: 'Baut struktural tahan benturan klinker panas' },
+    { id: 'insul-seals', name: 'Thermal Insulation Seals', category: 'Sealing', spec: 'Peredam suhu celah dinding cooler' },
+  ],
+  mill: [
+    { id: 'acrylic-bag', name: 'Antistatic Acrylic Needle Felt', category: 'Filtration', spec: 'Anti-statis serat tembaga/karbon untuk debu semen' },
+    { id: 'star-cage', name: 'Star Cages Dust Suppression', category: 'Support Cage', spec: 'Mencegah keruntuhan kantong saat tekanan tinggi' },
+    { id: 'pulse-valve', name: 'Diaphragm Pulse Valves 1.5 Inch', category: 'Pneumatics', spec: 'Siklus respons tinggi pulse cleaning baghouse' },
+    { id: 'solenoid-ctrl', name: 'Pneumatic Solenoid Controls', category: 'Automation', spec: 'Proteksi IP65 untuk pengontrolan sekuens pembersihan' },
+  ],
+  silo: [
+    { id: 'silo-vent', name: 'Top-Removal Silo Vent Filters', category: 'Filtration', spec: 'Penggantian cepat dari atas head bin silo' },
+    { id: 'pleated-cartridge', name: 'Pleated Cartridge Filters', category: 'Filtration', spec: 'Area filtrasi lebih ringkas untuk silo venting' },
+    { id: 'spout-sleeves', name: 'Spout Loading Rubber Sleeves', category: 'Conveying', spec: 'Karet corong fleksibel pengisian truk semen curah' },
+    { id: 'fluid-canvas', name: 'Aeration Pads & Fluidizing Canvas', category: 'Conveying', spec: 'Pencegah penggumpalan semen di kerucut silo' },
+  ],
+  pulverizer: [
+    { id: 'pps-mill-bag', name: 'Antistatic Polyester & PPS Bag', category: 'Filtration', spec: 'Tahan percikan statis serbuk batubara mudah meledak' },
+    { id: 'ss-cage-mill', name: 'SS304/316 Filter Cages', category: 'Support Cage', spec: 'Material anti-spark aman lingkungan ledakan' },
+    { id: 'skirt-rubber', name: 'Conveyor Skirt Rubber 60 ShA', category: 'Wear Parts', spec: 'Tahan gesekan tumpahan batubara pada transfer chute' },
+    { id: 'pulse-solenoid', name: 'Pneumatic Solenoid Pulse Valves', category: 'Pneumatics', spec: 'Penghembus filter dust collector pulverizer' },
+  ],
+  boiler: [
+    { id: 'b16-studs', name: 'ASTM A193 B16/B7 Stud Bolts', category: 'Fasteners', spec: 'Grade temperatur tinggi untuk flange uap superheated' },
+    { id: 'swg-gasket', name: 'Spiral Wound Gaskets SS316L/Graphite', category: 'Sealing', spec: 'Kerapatan pipa uap tekanan tinggi boiler' },
+    { id: 'ceramic-blanket', name: 'Ceramic Fiber Insulation Blanket', category: 'Thermal', spec: 'Isolasi panas dinding pipa boiler hingga 1260°C' },
+    { id: 'bellows-joint', name: 'Metallic Bellows Expansion Joints', category: 'Piping', spec: 'Kompensator ekspansi pipa transfer uap' },
+  ],
+  baghouse: [
+    { id: 'fgl-ptfe-bag', name: 'Fiberglass + PTFE Membrane Bags', category: 'Filtration', spec: 'Filtrasi fly ash submikron dari pembakaran batubara' },
+    { id: 'pps-p84-bag', name: 'PPS / P84 Acid Proof Felt Bags', category: 'Filtration', spec: 'Tahan paparan gas asam SOx/NOx dari flue gas' },
+    { id: 'star-cage-esp', name: 'Corrosion Resistant Star Cages', category: 'Support Cage', spec: 'Finishing epoksi tahan asam flue gas' },
+    { id: 'pulse-jet-valve', name: 'High Flow Diaphragm Valves', category: 'Pneumatics', spec: 'Daya hembus tinggi untuk pembersihan fly ash pekat' },
+  ],
+  turbine: [
+    { id: 'hydraulic-torque', name: 'Hydraulic Torque Wrenches', category: 'Tools', spec: 'Pengencangan baut casing turbin dengan torsi presisi' },
+    { id: 'casing-bolts', name: 'High Tensile Precision Casing Bolts', category: 'Fasteners', spec: 'Ketahanan getaran putaran tinggi poros turbin' },
+    { id: 'lube-cartridge', name: 'Synthetic Lube Oil Micron Filter', category: 'Filtration', spec: 'Kemurnian oli hidrolik dan pelumas bantalan generator' },
+    { id: 'serrated-gasket', name: 'High Velocity Serrated Metallic Gasket', category: 'Sealing', spec: 'Pencegah kebocoran uap rotasi superkritis' },
+  ],
+  cooling: [
+    { id: 'epdm-gasket', name: 'EPDM / NBR Heavy Flange Gaskets', category: 'Sealing', spec: 'Kerapatan sambungan pipa air sirkulasi dingin' },
+    { id: 'hdg-ss-bolts', name: 'Hot-Dip Galvanized & SS316 Bolts', category: 'Fasteners', spec: 'Anti-karat lingkungan lembab cooling tower' },
+    { id: 'drift-fasteners', name: 'Drift Eliminator Fasteners', category: 'Hardware', spec: 'Pengikat panel pemisah tetesan air cooling tower' },
+    { id: 'mech-seals', name: 'Water Cooling Pump Mechanical Seals', category: 'Sealing', spec: 'Pencegah kebocoran as pompa pendingin utama' },
+  ],
+  ashsilo: [
+    { id: 'cartridge-silo', name: 'Silo Vent Dust Cartridge Filters', category: 'Filtration', spec: 'Filtrasi debu fly ash saat pemindahan pneumatik' },
+    { id: 'airslide-ash', name: 'Fluidizing Airslide Canvas Fabrics', category: 'Conveying', spec: 'Pelancar aliran abu terbang di corong silo' },
+    { id: 'spout-sleeve-ash', name: 'Telescopic Dry Ash Spout Sleeves', category: 'Conveying', spec: 'Selongsong fleksibel pemuatan truk anti-debu liar' },
+    { id: 'airlock-seals', name: 'Rotary Air Lock Feeder Dust Seals', category: 'Sealing', spec: 'Penyekat tekanan hisap rotary valve abu' },
+  ],
+};
+
 export default function IndustrySolutions() {
   const [selectedIndustry, setSelectedIndustry] = useState('cement');
-  const [selectedEquipment, setSelectedEquipment] = useState('kiln');
+  // State awal bernilai null (belum ada titik yang diklik)
+  const [selectedEquipment, setSelectedEquipment] = useState(null);
 
   const handleSelectIndustry = (indId) => {
     setSelectedIndustry(indId);
-    if (indId === 'power') {
-      setSelectedEquipment('boiler');
-    } else {
-      setSelectedEquipment('kiln');
-    }
+    setSelectedEquipment(null); // Reset saat industri diganti
+  };
+
+  // Fungsi toggle: jika klik titik yang sama, tutup (null)
+  const handleToggleEquipment = (spotId) => {
+    setSelectedEquipment((prev) => (prev === spotId ? null : spotId));
   };
 
   const currentIndustryData = equipmentData[selectedIndustry] || equipmentData.cement;
-  const currentEquipment =
-    currentIndustryData.details[selectedEquipment] ||
-    Object.values(currentIndustryData.details)[0];
+  const currentEquipment = selectedEquipment ? currentIndustryData.details[selectedEquipment] : null;
+  const currentRecommendedProducts = selectedEquipment ? equipmentProductMap[selectedEquipment] || [] : [];
 
   return (
     <section id="industri" className="py-10 sm:py-14 bg-white dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 transition-colors duration-200">
@@ -267,20 +343,20 @@ export default function IndustrySolutions() {
           </div>
         </div>
 
-        {/* SEKSI 2: START FROM YOUR EQUIPMENT (Tinggi Terkunci & Seragam) */}
+        {/* SEKSI 2: START FROM YOUR EQUIPMENT */}
         <div id="equipment" className="border-t border-slate-200 dark:border-slate-800 pt-8 sm:pt-10">
           <div className="mb-5">
             <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight">
               Start From Your Equipment
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Select your industry, then explore equipment and find the right products.
+              Select your industry, then click any equipment point to explore matching products. Click again to close.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch bg-slate-50 dark:bg-slate-900/50 p-3.5 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800">
 
-            {/* Navigasi Kategori Industri Samping (Tinggi Mengikuti Wadah Utama) */}
+            {/* Navigasi Kategori Industri Samping */}
             <div className="lg:col-span-2 flex lg:flex-col gap-1 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 no-scrollbar justify-start">
               {industries.slice(0, 6).map((ind) => {
                 const isActive = selectedIndustry === ind.id;
@@ -289,7 +365,7 @@ export default function IndustrySolutions() {
                     key={ind.id}
                     type="button"
                     onClick={() => handleSelectIndustry(ind.id)}
-                    className={`text-left px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition whitespace-nowrap lg:whitespace-normal border-b-2 lg:border-b-0 lg:border-l-4 shrink-0 ${
+                    className={`text-left px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition whitespace-nowrap lg:whitespace-normal border-b-2 lg:border-b-0 lg:border-l-4 shrink-0 cursor-pointer ${
                       isActive
                         ? 'border-amber-500 bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-400 shadow-sm font-bold'
                         : 'border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800/40'
@@ -301,7 +377,7 @@ export default function IndustrySolutions() {
               })}
             </div>
 
-            {/* Bagian Visual Diagram Model & Pin Interaktif (Aspek Rasio Terkunci 16:9) */}
+            {/* Bagian Visual Diagram Model & Pin Interaktif (16:9) */}
             <div className="lg:col-span-7 flex flex-col justify-between">
               
               {/* Selector Tombol Mesin Cepat Khusus Layar Ponsel */}
@@ -310,8 +386,8 @@ export default function IndustrySolutions() {
                   <button
                     key={spot.id}
                     type="button"
-                    onClick={() => setSelectedEquipment(spot.id)}
-                    className={`px-2.5 py-1.5 rounded-lg text-[11px] font-bold whitespace-nowrap border transition shrink-0 ${
+                    onClick={() => handleToggleEquipment(spot.id)}
+                    className={`px-2.5 py-1.5 rounded-lg text-[11px] font-bold whitespace-nowrap border transition shrink-0 cursor-pointer ${
                       spot.id === selectedEquipment
                         ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm'
                         : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
@@ -322,7 +398,7 @@ export default function IndustrySolutions() {
                 ))}
               </div>
 
-              {/* Area Gambar Rasio Tetap 16:9 Terkunci */}
+              {/* Area Gambar Rasio Tetap 16:9 */}
               <div className="relative w-full aspect-[16/9] flex items-center justify-center bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/60 p-2 sm:p-3 overflow-hidden shadow-inner">
                 <img
                   src={currentIndustryData.image}
@@ -330,7 +406,7 @@ export default function IndustrySolutions() {
                   className="w-full h-full object-contain select-none"
                 />
 
-                {/* Titik Pin Interaktif */}
+                {/* Titik Pin Interaktif (Toggle On/Off) */}
                 {currentIndustryData.spots.map((spot) => {
                   const isSelected = spot.id === selectedEquipment;
                   return (
@@ -338,7 +414,7 @@ export default function IndustrySolutions() {
                       key={spot.id}
                       style={{ top: spot.top, left: spot.left }}
                       className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer z-10"
-                      onClick={() => setSelectedEquipment(spot.id)}
+                      onClick={() => handleToggleEquipment(spot.id)}
                     >
                       <span
                         className={`hidden sm:block text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded shadow mb-1 whitespace-nowrap border transition ${
@@ -370,84 +446,210 @@ export default function IndustrySolutions() {
               </div>
 
               <div className="flex sm:hidden items-center justify-between text-[10px] text-slate-400 pt-1.5 px-1">
-                <span>Dipilih: <strong className="text-amber-500">{currentEquipment.name}</strong></span>
-                <span>Ketuk titik atau tombol di atas</span>
+                <span>
+                  {currentEquipment ? (
+                    <>Dipilih: <strong className="text-amber-500">{currentEquipment.name}</strong></>
+                  ) : (
+                    'Ketuk titik atau tombol di atas'
+                  )}
+                </span>
+                <span>{selectedEquipment ? 'Ketuk lagi untuk menutup' : 'Pilih titik mesin'}</span>
               </div>
             </div>
 
-            {/* Detail Produk Kanan (Tinggi Sejajar, Anti-Molor ke Bawah) */}
+            {/* Detail Produk Kanan */}
             <div className="lg:col-span-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm flex flex-col justify-between h-full">
-              
-              <div className="space-y-3">
-                {/* Placeholder Gambar Kecil */}
-                <div className="h-20 sm:h-24 rounded-lg border border-blue-100/70 dark:border-slate-700 bg-[#F4F7FB] dark:bg-slate-900/60 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500">
-                  <ImageIcon className="w-5 h-5 stroke-[1.5] mb-0.5 opacity-60" />
-                  <span className="text-[8px] font-bold tracking-wider uppercase opacity-75">
-                    Asset Placeholder
-                  </span>
-                </div>
+              {currentEquipment ? (
+                <>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="h-16 sm:h-20 flex-1 rounded-lg border border-blue-100/70 dark:border-slate-700 bg-[#F4F7FB] dark:bg-slate-900/60 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 mr-2">
+                        <ImageIcon className="w-5 h-5 stroke-[1.5] mb-0.5 opacity-60" />
+                        <span className="text-[8px] font-bold tracking-wider uppercase opacity-75">
+                          Asset Placeholder
+                        </span>
+                      </div>
 
-                <div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-snug">
-                    {currentEquipment.name}
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 mb-2.5">
-                    {currentEquipment.subtitle}
-                  </p>
-
-                  {/* Parameter Suhu & Kondisi Operasional */}
-                  <div className="space-y-1.5 mb-2.5">
-                    <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700/60 text-xs">
-                      <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                        Operating Temp
-                      </span>
-                      <span className="font-extrabold text-amber-600 dark:text-amber-400 text-right">
-                        {currentEquipment.temp || 'Ambient'}
-                      </span>
+                      {/* Tombol Tutup / Close Silang */}
+                      <button
+                        type="button"
+                        onClick={() => setSelectedEquipment(null)}
+                        className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700/60 transition cursor-pointer self-start"
+                        title="Tutup Detail"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
                     </div>
 
-                    <div className="px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700/60 text-xs">
-                      <span className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider mb-0.5">
-                        Operating Condition
-                      </span>
-                      <span className="font-semibold text-slate-700 dark:text-slate-200 leading-snug block text-[11px]">
-                        {currentEquipment.condition || 'Standard Operation'}
-                      </span>
+                    <div>
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-snug">
+                        {currentEquipment.name}
+                      </h3>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 mb-2.5">
+                        {currentEquipment.subtitle}
+                      </p>
+
+                      <div className="space-y-1.5 mb-2.5">
+                        <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700/60 text-xs">
+                          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                            Operating Temp
+                          </span>
+                          <span className="font-extrabold text-amber-600 dark:text-amber-400 text-right">
+                            {currentEquipment.temp || 'Ambient'}
+                          </span>
+                        </div>
+
+                        <div className="px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-700/60 text-xs">
+                          <span className="text-[10px] font-semibold text-slate-400 block uppercase tracking-wider mb-0.5">
+                            Operating Condition
+                          </span>
+                          <span className="font-semibold text-slate-700 dark:text-slate-200 leading-snug block text-[11px]">
+                            {currentEquipment.condition || 'Standard Operation'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="max-h-36 sm:max-h-40 overflow-y-auto pr-1 space-y-1.5">
+                      {currentEquipment.products.map((item) => (
+                        <div key={item} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" />
+                          <span className="leading-tight text-[11px]">{item}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
 
-                {/* List Produk dengan Scroll Halus Jika Layar Sangat Pendek */}
-                <div className="max-h-36 sm:max-h-40 overflow-y-auto pr-1 space-y-1.5">
-                  {currentEquipment.products.map((item) => (
-                    <div key={item} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" />
-                      <span className="leading-tight text-[11px]">{item}</span>
-                    </div>
-                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                      const rawMessage = `Halo Tim Sales, saya ingin konsultasi kebutuhan produk untuk area ${currentEquipment.name} (${selectedIndustry.toUpperCase()}).`;
+                      const text = encodeURIComponent(rawMessage);
+                      const url = isMobile 
+                        ? `https://wa.me/6285880427199?text=${text}` 
+                        : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+                      window.open(url, "_blank", "noopener,noreferrer");
+                    }}
+                    className="w-full mt-3 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg text-xs transition shadow-sm shrink-0 cursor-pointer"
+                  >
+                    <span>Minta Penawaran Area Ini</span>
+                    <ChevronRight className="w-4 h-4 shrink-0" />
+                  </button>
+                </>
+              ) : (
+                /* Tampilan Awal Saat Tidak Ada Titik Terpilih */
+                <div className="h-full flex flex-col items-center justify-center text-center p-4">
+                  <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500 mb-3 animate-bounce">
+                    <MousePointerClick className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    Pilih Titik Mesin
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-[200px] leading-relaxed">
+                    Klik salah satu titik pada diagram untuk memuat spesifikasi dan rekomendasi produk terkait.
+                  </p>
                 </div>
-              </div>
-
-              {/* Tombol CTA di Bagian Bawah */}
-              <button
-                type="button"
-                onClick={() => {
-                  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                  const rawMessage = `Halo Tim Sales, saya ingin konsultasi kebutuhan produk untuk area ${currentEquipment.name} (${selectedIndustry.toUpperCase()}).`;
-                  const text = encodeURIComponent(rawMessage);
-                  const url = isMobile 
-                    ? `https://wa.me/6285880427199?text=${text}` 
-                    : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
-                  window.open(url, "_blank", "noopener,noreferrer");
-                }}
-                className="w-full mt-3 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg text-xs transition shadow-sm shrink-0 cursor-pointer"
-                >
-                  <span>Minta Penawaran Area Ini</span>
-                  <ChevronRight className="w-4 h-4 shrink-0" />
-                </button>
+              )}
             </div>
 
           </div>
+
+          {/* OPSI 1: Rak Rekomendasi Produk yang Muncul Mulus dari Bawah */}
+          {selectedEquipment && currentRecommendedProducts.length > 0 && (
+            <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800 transition-all duration-500 ease-out animate-in fade-in slide-in-from-bottom-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                      Rekomendasi Khusus Mesin
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white mt-0.5">
+                    Rekomendasi Produk untuk {currentEquipment.name} ({currentIndustryData.title})
+                  </h3>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.location.href = '/products';
+                    }}
+                    className="text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>Buka Semua di Katalog</span>
+                    <span>→</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSelectedEquipment(null)}
+                    className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 px-2 py-1 rounded border border-slate-200 dark:border-slate-700 cursor-pointer transition"
+                  >
+                    Tutup Rekomendasi ✕
+                  </button>
+                </div>
+              </div>
+
+              {/* Grid 4 Kolom Kartu Rekomendasi */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {currentRecommendedProducts.map((prod) => (
+                  <div
+                    key={prod.id}
+                    className="flex flex-col justify-between p-4 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70 hover:border-amber-500/60 hover:shadow-md transition group"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+                          {prod.category}
+                        </span>
+                        <span className="text-[10px] text-slate-400 font-mono">
+                          {prod.id}
+                        </span>
+                      </div>
+                      <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-500 transition line-clamp-1">
+                        {prod.name}
+                      </h4>
+                      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
+                        {prod.spec}
+                      </p>
+                    </div>
+
+                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          window.location.href = `/products?id=${prod.id}`;
+                        }}
+                        className="flex-1 py-2 px-3 text-center rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 text-xs font-semibold transition cursor-pointer"
+                      >
+                        Detail
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                          const text = encodeURIComponent(
+                            `Halo Tim Sales, saya ingin minta penawaran untuk produk: ${prod.name} (ID: ${prod.id}) untuk area ${currentEquipment.name}.`
+                          );
+                          const url = isMobile
+                            ? `https://wa.me/6285880427199?text=${text}`
+                            : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+                          window.open(url, '_blank', 'noopener,noreferrer');
+                        }}
+                        className="py-2 px-3 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold transition cursor-pointer whitespace-nowrap"
+                      >
+                        RFQ
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
 
       </div>

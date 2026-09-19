@@ -49,12 +49,12 @@ export default function Hero() {
     <section className="relative bg-[#0B1120] text-white pt-16 pb-20 overflow-hidden border-b border-slate-800">
       {/* 1. Background Image Pabrik */}
       <div 
-      className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-75 scale-105 transition-transform duration-1000"
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-75 scale-105 transition-transform duration-1000"
         style={{ backgroundImage: `url(${heroBg})` }}
       />
 
       {/* 2. Layer Overlay Gelap & Gradasi (Menjaga kontras teks) */}
-     <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0B1120]/90 via-[#0B1120]/60 to-transparent" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#0B1120]/90 via-[#0B1120]/60 to-transparent" />
 
       {/* 3. Background Grid Pattern Halus */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-25"></div>
@@ -80,11 +80,27 @@ export default function Hero() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <button className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-3 rounded-md flex items-center gap-2 transition shadow-lg text-sm">
-              Explore Products <ArrowRight className="w-4 h-4" />
+            <button
+              type="button"
+              onClick={() => {
+                window.location.href = '/products';
+              }}
+              className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs sm:text-sm px-5 py-3 rounded-lg transition shadow-sm cursor-pointer inline-flex items-center gap-2"
+            >
+              <span>Explore Products</span>
+              <span>→</span>
             </button>
 
-            <button className="border border-slate-700 hover:border-slate-500 bg-slate-900/60 text-white font-semibold px-6 py-3 rounded-md text-sm transition">
+            <button 
+              type="button"
+              onClick={() => {
+                const el = document.getElementById('equipment');
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="border border-slate-700 hover:border-slate-500 bg-slate-900/60 text-white font-semibold px-6 py-3 rounded-md text-sm transition cursor-pointer"
+            >
               Find by Application
             </button>
 
