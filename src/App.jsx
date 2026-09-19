@@ -6,6 +6,8 @@ import QuickSearch from './components/QuickSearch';
 import IndustrySolutions from './components/IndustrySolutions';
 import ProductSelectorSection from './components/ProductSelectorSection';
 import ProductsPage from './pages/ProductsPage';
+import ServicesPage from './pages/ServicesPage';
+import ContactPage from './pages/ContactPage';
 import Footer from './components/Footer';
 
 function HomePage() {
@@ -27,6 +29,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
 
       <Footer />

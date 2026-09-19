@@ -15,7 +15,7 @@ const categories = [
   { id: 'valves', name: 'Valves & Piping' },
 ];
 
-const products = [
+const defaultProducts = [
   {
     id: 1,
     category: 'fasteners',
@@ -24,6 +24,7 @@ const products = [
     material: 'Alloy Steel, Hot-Dip Galvanized / Black Oxide',
     application: 'Struktur berat, pondasi mesin, flange pipa tekanan tinggi',
     badge: 'Heavy Duty',
+    image: null,
   },
   {
     id: 2,
@@ -33,6 +34,7 @@ const products = [
     material: 'Chromium-Molybdenum Steel',
     application: 'Sambungan flange bejana tekan, rotary kiln, & boiler',
     badge: 'High Temp',
+    image: null,
   },
   {
     id: 3,
@@ -42,6 +44,7 @@ const products = [
     material: 'SS316L + Flexible Graphite Filler + Carbon Steel Outer Ring',
     application: 'Saluran uap panas, fluida korosif, dan heat exchanger',
     badge: 'Critical Sealing',
+    image: null,
   },
   {
     id: 4,
@@ -51,6 +54,7 @@ const products = [
     material: 'Inconel Wire Reinforced Pure Graphite',
     application: 'Gland seal pompa sentrifugal tekanan tinggi & valve stem',
     badge: 'Max 650°C',
+    image: null,
   },
   {
     id: 5,
@@ -60,6 +64,7 @@ const products = [
     material: 'Aircraft Grade Titanium-Aluminum Alloy',
     application: 'Pengencangan baut flange kritis dengan nilai torsi presisi tinggi',
     badge: 'Precision Torque',
+    image: null,
   },
   {
     id: 6,
@@ -69,6 +74,7 @@ const products = [
     material: 'Forged Chrome Molybdenum Steel (Cr-Mo)',
     application: 'Perawatan berkala mesin grinding, crusher, dan ball mill',
     badge: 'Impact Proof',
+    image: null,
   },
   {
     id: 7,
@@ -78,6 +84,7 @@ const products = [
     material: 'Ductile Iron / CF8M Stainless Steel Body',
     application: 'Pengendalian aliran debu semen, udara bertekanan, & sirkulasi air',
     badge: 'Class 150/300',
+    image: null,
   },
   {
     id: 8,
@@ -87,6 +94,7 @@ const products = [
     material: 'WCB Carbon Steel / CF8M',
     application: 'Isolasi pipa gas, minyak pelumas mesin, dan jalur fluida utama',
     badge: 'Zero Leakage',
+    image: null,
   },
 ];
 
@@ -97,13 +105,52 @@ export default function ProductCatalog() {
 
   const [activeCategory, setActiveCategory] = useState(categoryParam);
   const [searchTerm, setSearchTerm] = useState(searchParam);
+  const [productsList, setProductsList] = useState(defaultProducts);
+
+  useEffect(() => {
+    fetch('http://industrial-test.test/wp-json/wp/v2/posts?_embed')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!Array.isArray(data)) return;
+
+        // Filter pos bawaan WordPress agar tidak ikut tampil
+        const validPosts = data.filter(
+          (item) => item.slug !== 'hello-world' && item.title?.rendered?.toLowerCase() !== 'test'
+        );
+
+        const wpProducts = validPosts.map((item) => {
+          const featuredImg = item._embedded?.['wp:featuredmedia']?.[0]?.source_url || null;
+          const cleanDesc = (item.excerpt?.rendered || item.content?.rendered || '')
+            .replace(/<[^>]+>/g, '')
+            .replace(/&amp;/g, '&')
+            .trim();
+
+          return {
+            id: `wp-${item.id}`,
+            category: 'seals',
+            name: item.title?.rendered?.replace(/&amp;/g, '&') || 'Produk Baru',
+            standard: 'ASME / DIN Standard',
+            material: 'Industrial Grade Material',
+            application: cleanDesc || 'Aplikasi operasional pabrik dan industri mekanikal.',
+            badge: 'New Item',
+            image: featuredImg,
+          };
+        });
+
+        // Gabungkan: Pos dari WordPress di urutan depan, produk lokal di belakang
+        setProductsList([...wpProducts, ...defaultProducts]);
+      })
+      .catch((err) => {
+        console.warn('Gagal memuat data WordPress, menggunakan katalog bawaan:', err);
+      });
+  }, []);
 
   useEffect(() => {
     if (searchParam) setSearchTerm(searchParam);
     if (categoryParam) setActiveCategory(categoryParam);
   }, [searchParam, categoryParam]);
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = productsList.filter((product) => {
     const matchCategory = activeCategory === 'all' || product.category === activeCategory;
     const matchSearch =
       searchTerm === '' ||
@@ -152,7 +199,7 @@ export default function ProductCatalog() {
             </span>
             <button
               onClick={handleResetSearch}
-              className="flex items-center gap-1 text-slate-500 hover:text-slate-900 dark:hover:text-white font-semibold"
+              className="flex items-center gap-1 text-slate-500 hover:text-slate-900 dark:hover:text-white font-semibold cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
               <span>Hapus Pencarian</span>
@@ -192,7 +239,7 @@ export default function ProductCatalog() {
             <p className="text-sm font-semibold text-slate-500">Tidak ada produk yang cocok dengan kriteria pencarian.</p>
             <button
               onClick={handleResetSearch}
-              className="mt-3 text-xs font-bold text-amber-500 hover:underline"
+              className="mt-3 text-xs font-bold text-amber-500 hover:underline cursor-pointer"
             >
               Tampilkan Semua Produk
             </button>
@@ -210,11 +257,22 @@ export default function ProductCatalog() {
                   className="bg-white dark:bg-[#0C1222] border border-slate-200 dark:border-slate-800/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between hover:border-amber-500/60 dark:hover:border-amber-500/60 transition shadow-sm group"
                 >
                   <div>
-                    <div className="w-full h-40 rounded-xl border border-blue-100/70 dark:border-slate-800 bg-[#F4F7FB] dark:bg-slate-900/60 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 mb-4 select-none group-hover:border-amber-400/40 transition">
-                      <ImageIcon className="w-8 h-8 stroke-[1.5] mb-2 opacity-60 group-hover:text-amber-500 transition" />
-                      <span className="text-[9px] font-bold tracking-wider uppercase opacity-75">
-                        Asset Placeholder
-                      </span>
+                    {/* Gambar atau Placeholder */}
+                    <div className="w-full h-40 rounded-xl border border-blue-100/70 dark:border-slate-800 bg-[#F4F7FB] dark:bg-slate-900/60 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 mb-4 select-none overflow-hidden group-hover:border-amber-400/40 transition">
+                      {product.image ? (
+                        <img 
+                          src={product.image} 
+                          alt={product.name} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                        />
+                      ) : (
+                        <>
+                          <ImageIcon className="w-8 h-8 stroke-[1.5] mb-2 opacity-60 group-hover:text-amber-500 transition" />
+                          <span className="text-[9px] font-bold tracking-wider uppercase opacity-75">
+                            Asset Placeholder
+                          </span>
+                        </>
+                      )}
                     </div>
 
                     <div className="flex items-center justify-between gap-2 mb-2">
@@ -226,7 +284,7 @@ export default function ProductCatalog() {
                       </span>
                     </div>
 
-                    <h3 className="text-sm font-black text-slate-900 dark:text-white group-hover:text-amber-500 transition leading-snug">
+                    <h3 className="text-sm font-black text-slate-900 dark:text-white group-hover:text-amber-500 transition leading-snug line-clamp-2">
                       {product.name}
                     </h3>
 
@@ -241,28 +299,28 @@ export default function ProductCatalog() {
                       </div>
                       <div>
                         <span className="text-slate-400 dark:text-slate-500 font-semibold block">Rekomendasi Aplikasi:</span>
-                        <span className="text-slate-600 dark:text-slate-400">{product.application}</span>
+                        <span className="text-slate-600 dark:text-slate-400 line-clamp-2">{product.application}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="pt-5 mt-4 border-t border-slate-100 dark:border-slate-800/80">
-                   <button
+                 <div className="pt-5 mt-4 border-t border-slate-100 dark:border-slate-800/80">
+                    <button
                         type="button"
                         onClick={() => {
-                            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                            const text = encodeURIComponent(waText);
-                            const url = isMobile 
-                            ? `https://wa.me/6285880427199?text=${text}` 
-                            : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
-                            window.open(url, "_blank", "noopener,noreferrer");
+                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                        // Langsung gunakan waText tanpa memanggil encodeURIComponent lagi
+                        const url = isMobile 
+                            ? `https://wa.me/6285880427199?text=${waText}` 
+                            : `https://web.whatsapp.com/send?phone=6285880427199&text=${waText}`;
+                        window.open(url, "_blank", "noopener,noreferrer");
                         }}
                         className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-2.5 bg-slate-100 hover:bg-amber-500 text-slate-800 hover:text-slate-950 dark:bg-slate-800/80 dark:hover:bg-amber-500 dark:text-slate-200 dark:hover:text-slate-950 font-bold rounded-xl text-xs transition duration-150 cursor-pointer"
                         >
                         <MessageSquare className="w-4 h-4 shrink-0" />
                         <span>Minta Penawaran</span>
                     </button>
-                  </div>
+                 </div>
                 </div>
               );
             })}

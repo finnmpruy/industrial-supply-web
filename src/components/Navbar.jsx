@@ -66,17 +66,20 @@ export default function Navbar() {
           >
             Katalog Produk
           </Link>
-          <a href="/#layanan" className="hover:text-amber-600 dark:hover:text-amber-400 transition">
+          {/* Layanan diarahkan via Link Router */}
+          <Link 
+            to="/services" 
+            className={`transition ${isActive('/services') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
+          >
             Layanan
-          </a>
-          <a 
-            href="https://wa.me/6285880427199?text=Halo%20Tim%20Sales,%20saya%20ingin%20berkonsultasi." 
-            target="_blank" 
-            rel="noreferrer" 
-            className="hover:text-amber-600 dark:hover:text-amber-400 transition"
+          </Link>
+          {/* Hubungi Kami diarahkan ke halaman Contact */}
+          <Link 
+            to="/contact" 
+            className={`transition ${isActive('/contact') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
           >
             Hubungi Kami
-          </a>
+          </Link>
         </nav>
 
         {/* Action Button & Toggles */}
@@ -103,7 +106,7 @@ export default function Navbar() {
 
           <ThemeToggle />
 
-         <button
+          <button
             type="button"
             onClick={() => {
               const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -114,9 +117,10 @@ export default function Navbar() {
               window.open(url, "_blank", "noopener,noreferrer");
             }}
             className="hidden md:inline-flex items-center justify-center px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg text-xs sm:text-sm whitespace-nowrap transition shadow-sm cursor-pointer"
-            >
+          >
             Minta Penawaran
           </button>
+
           {/* Tombol Hamburger Mobile */}
           <button
             type="button"
@@ -188,13 +192,20 @@ export default function Navbar() {
           >
             Katalog Produk
           </Link>
-          <a 
-            href="/#layanan" 
+          <Link 
+            to="/services" 
             onClick={() => setIsMobileMenuOpen(false)} 
-            className="block py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-amber-500"
+            className={`block py-2 text-sm font-bold transition ${isActive('/services') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
           >
             Layanan
-          </a>
+          </Link>
+          <Link 
+            to="/contact" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className={`block py-2 text-sm font-bold transition ${isActive('/contact') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
+          >
+            Hubungi Kami
+          </Link>
           
           <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
             <button
@@ -209,7 +220,7 @@ export default function Navbar() {
                 window.open(url, "_blank", "noopener,noreferrer");
               }}
               className="w-full py-3 px-4 flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-sm transition shadow-sm cursor-pointer"
-              >
+            >
               Minta Penawaran
             </button>
           </div>
