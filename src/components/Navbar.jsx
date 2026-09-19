@@ -103,15 +103,20 @@ export default function Navbar() {
 
           <ThemeToggle />
 
-          <a
-            href="https://wa.me/6285880427199?text=Halo%20Tim%20Sales,%20saya%20ingin%20meminta%20penawaran%20harga%20(RFQ)."
-            target="_blank"
-            rel="noreferrer"
-            className="hidden sm:inline-block bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg transition shadow-sm whitespace-nowrap"
-          >
+         <button
+            type="button"
+            onClick={() => {
+              const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+              const text = encodeURIComponent("Halo Tim Sales, saya ingin meminta penawaran harga (RFQ).");
+              const url = isMobile 
+                ? `https://wa.me/6285880427199?text=${text}` 
+                : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+              window.open(url, "_blank", "noopener,noreferrer");
+            }}
+            className="hidden md:inline-flex items-center justify-center px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg text-xs sm:text-sm whitespace-nowrap transition shadow-sm cursor-pointer"
+            >
             Minta Penawaran
-          </a>
-
+          </button>
           {/* Tombol Hamburger Mobile */}
           <button
             type="button"
@@ -192,15 +197,21 @@ export default function Navbar() {
           </a>
           
           <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-            <a 
-              href="https://wa.me/6285880427199?text=Halo%20Tim%20Sales,%20saya%20ingin%20meminta%20penawaran%20harga%20(RFQ)." 
-              target="_blank" 
-              rel="noreferrer"
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className="w-full flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 rounded-lg text-sm transition"
-            >
-              Minta Penawaran (WhatsApp)
-            </a>
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                const text = encodeURIComponent("Halo Tim Sales, saya ingin meminta penawaran harga (RFQ).");
+                const url = isMobile 
+                  ? `https://wa.me/6285880427199?text=${text}` 
+                  : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+                window.open(url, "_blank", "noopener,noreferrer");
+              }}
+              className="w-full py-3 px-4 flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-sm transition shadow-sm cursor-pointer"
+              >
+              Minta Penawaran
+            </button>
           </div>
         </div>
       )}

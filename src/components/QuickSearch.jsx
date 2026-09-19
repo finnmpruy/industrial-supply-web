@@ -78,35 +78,47 @@ export default function QuickSearch() {
           {/* 3 Tombol Kontak Cepat */}
           <div className="lg:col-span-5 grid grid-cols-3 gap-3 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-800 pt-4 lg:pt-0 lg:pl-6">
             
-            <a 
-              href="https://wa.me/6285880427199?text=Halo%20Tim%20Sales,%20saya%20ingin%20meminta%20penawaran%20harga%20(RFQ)."
-              target="_blank" 
-              rel="noreferrer"
-              className="group flex flex-col items-center text-center p-2 rounded-lg hover:bg-white dark:hover:bg-slate-900 hover:shadow-sm transition"
-            >
-              <div className="w-10 h-10 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-105 transition">
-                <FileText className="w-5 h-5" />
-              </div>
-              <span className="mt-2 text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400">
-                Get a Quote
-              </span>
-              <span className="text-[11px] text-slate-400">Fast response</span>
-            </a>
+           <button 
+                type="button"
+                onClick={() => {
+                  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                  const text = encodeURIComponent("Halo Tim Sales, saya ingin meminta penawaran harga (RFQ).");
+                  const url = isMobile 
+                    ? `https://wa.me/6285880427199?text=${text}` 
+                    : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+                  window.open(url, "_blank", "noopener,noreferrer");
+                }}
+                className="group flex flex-col items-center text-center px-4 py-3 rounded-lg hover:bg-white dark:hover:bg-slate-900 hover:shadow-sm transition cursor-pointer appearance-none border-none bg-transparent"
+              >
+                <div className="w-10 h-10 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-105 transition">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <span className="mt-2 text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 whitespace-nowrap">
+                  Get a Quote
+                </span>
+                <span className="text-[11px] text-slate-400 mt-0.5 whitespace-nowrap">Fast response</span>
+              </button>
 
-            <a 
-              href="https://wa.me/6285880427199?text=Halo,%20saya%20ingin%20konsultasi%20teknis%20dengan%20Engineer." 
-              target="_blank" 
-              rel="noreferrer"
-              className="group flex flex-col items-center text-center p-2 rounded-lg hover:bg-white dark:hover:bg-slate-900 hover:shadow-sm transition"
-            >
-              <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-300 group-hover:scale-105 transition">
-                <UserCheck className="w-5 h-5" />
-              </div>
-              <span className="mt-2 text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400">
-                Talk to an Engineer
-              </span>
-              <span className="text-[11px] text-slate-400">Technical support</span>
-            </a>
+              <button 
+                type="button"
+                onClick={() => {
+                  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                  const text = encodeURIComponent("Halo, saya ingin konsultasi teknis dengan Engineer.");
+                  const url = isMobile 
+                    ? `https://wa.me/6285880427199?text=${text}` 
+                    : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+                  window.open(url, "_blank", "noopener,noreferrer");
+                }}
+                className="group flex flex-col items-center text-center px-4 py-3 rounded-lg hover:bg-white dark:hover:bg-slate-900 hover:shadow-sm transition cursor-pointer appearance-none border-none bg-transparent"
+              >
+                <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-300 group-hover:scale-105 transition">
+                  <UserCheck className="w-5 h-5" />
+                </div>
+                <span className="mt-2 text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 whitespace-nowrap">
+                  Talk to an Engineer
+                </span>
+                <span className="text-[11px] text-slate-400 mt-0.5 whitespace-nowrap">Technical support</span>
+            </button>
 
             <Link 
               to="/products"

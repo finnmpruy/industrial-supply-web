@@ -429,15 +429,22 @@ export default function IndustrySolutions() {
               </div>
 
               {/* Tombol CTA di Bagian Bawah */}
-              <a
-                href={`https://wa.me/6285880427199?text=${encodeURIComponent(`Halo Tim Sales, saya ingin konsultasi kebutuhan produk untuk area ${currentEquipment.name} (${selectedIndustry.toUpperCase()}).`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full mt-3 inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 px-3 rounded-lg text-xs transition shadow-sm shrink-0"
-              >
-                <span>Minta Penawaran Area Ini</span>
-                <ChevronRight className="w-4 h-4" />
-              </a>
+              <button
+                type="button"
+                onClick={() => {
+                  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                  const rawMessage = `Halo Tim Sales, saya ingin konsultasi kebutuhan produk untuk area ${currentEquipment.name} (${selectedIndustry.toUpperCase()}).`;
+                  const text = encodeURIComponent(rawMessage);
+                  const url = isMobile 
+                    ? `https://wa.me/6285880427199?text=${text}` 
+                    : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+                  window.open(url, "_blank", "noopener,noreferrer");
+                }}
+                className="w-full mt-3 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg text-xs transition shadow-sm shrink-0 cursor-pointer"
+                >
+                  <span>Minta Penawaran Area Ini</span>
+                  <ChevronRight className="w-4 h-4 shrink-0" />
+                </button>
             </div>
 
           </div>
