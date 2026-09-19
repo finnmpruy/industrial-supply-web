@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Globe, X, Menu } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
@@ -6,19 +7,27 @@ export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim()) {
+      navigate('/products');
+    } else {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
     setIsSearchOpen(false);
   };
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <header className="sticky top-0 z-50 bg-white dark:bg-[#0B1120] border-b border-slate-200 dark:border-slate-800 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
         
-        {/* Jenama Syarikat */}
-        <a href="#beranda" className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+        {/* Logo & Judul */}
+        <Link to="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0">
           <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-lg sm:text-xl shadow-sm shrink-0">
             ⚙️
           </div>
@@ -30,19 +39,37 @@ export default function Navbar() {
               & Engineering Tools
             </span>
           </div>
-        </a>
+        </Link>
 
-        {/* Navigasi Mengikut Industri & Produk */}
+        {/* Menu Navigasi Desktop */}
         <nav className="hidden xl:flex items-center gap-6 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
-          <a href="#beranda" className="text-amber-600 dark:text-amber-400 font-bold">Beranda</a>
-          <a href="#industri" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Industri</a>
-          <a href="#equipment" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Produk</a>
-          <a href="#produk" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Tentang Kami</a>
-          <a href="#layanan" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Layanan</a>
-          <a href="#kontak" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Hubungi Kami</a>
+          <Link 
+            to="/" 
+            className={`transition ${isActive('/') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
+          >
+            Beranda
+          </Link>
+          <a href="/#industri" className="hover:text-amber-600 dark:hover:text-amber-400 transition">
+            Industri
+          </a>
+          <a href="/#equipment" className="hover:text-amber-600 dark:hover:text-amber-400 transition">
+            Equipment
+          </a>
+          <Link 
+            to="/products" 
+            className={`transition ${isActive('/products') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
+          >
+            Katalog Produk
+          </Link>
+          <a href="/#layanan" className="hover:text-amber-600 dark:hover:text-amber-400 transition">
+            Layanan
+          </a>
+          <a href="https://wa.me/6285880427199?text=Halo%20Tim%20Sales,%20saya%20ingin%20berkonsultasi." target="_blank" rel="noreferrer" className="hover:text-amber-600 dark:hover:text-amber-400 transition">
+            Hubungi Kami
+          </a>
         </nav>
 
-        {/* Carian, Tema & Minta Sebut Harga */}
+        {/* Action Button & Search Trigger */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <button 
             type="button"
@@ -50,8 +77,8 @@ export default function Navbar() {
               setIsSearchOpen(!isSearchOpen);
               setIsMobileMenuOpen(false);
             }}
-            aria-label="Carian"
-            className="p-1.5 sm:p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+            aria-label="Pencarian"
+            className="p-1.5 sm:p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
           >
             {isSearchOpen ? <X className="w-4 h-4" /> : <Search className="w-4 h-4" />}
           </button>
@@ -67,7 +94,9 @@ export default function Navbar() {
           <ThemeToggle />
 
           <a
-            href="#quote"
+            href="https://wa.me/6285880427199?text=Halo%20Tim%20Sales,%20saya%20ingin%20meminta%20penawaran%20harga%20(RFQ)."
+            target="_blank"
+            rel="noreferrer"
             className="hidden sm:inline-block bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs sm:text-sm px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg transition shadow-sm whitespace-nowrap"
           >
             Minta Penawaran
@@ -88,7 +117,7 @@ export default function Navbar() {
 
       </div>
 
-      {/* Bar Carian */}
+      {/* Pop-up Bar Pencarian */}
       {isSearchOpen && (
         <div className="border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 py-3">
           <div className="max-w-4xl mx-auto">
@@ -109,18 +138,6 @@ export default function Navbar() {
               </button>
             </form>
           </div>
-        </div>
-      )}
-
-      {/* Menu Mudah Alih */}
-      {isMobileMenuOpen && (
-        <div className="xl:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B1120] px-4 py-5 space-y-3">
-          <a href="#beranda" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-bold text-amber-600 dark:text-amber-400">Beranda</a>
-          <a href="#industri" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Industri</a>
-          <a href="#equipment" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Equipment</a>
-          <a href="#produk" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Katalog Produk</a>
-          <a href="#layanan" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Layanan</a>
-          <a href="#kontak" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-semibold text-slate-700 dark:text-slate-200">Hubungi Kami</a>
         </div>
       )}
     </header>
