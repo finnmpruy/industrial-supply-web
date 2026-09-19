@@ -36,8 +36,8 @@ export default function Navbar() {
         <nav className="hidden xl:flex items-center gap-6 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
           <a href="#beranda" className="text-amber-600 dark:text-amber-400 font-bold">Beranda</a>
           <a href="#industri" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Industri</a>
-          <a href="#equipment" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Equipment</a>
-          <a href="#produk" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Katalog Produk</a>
+          <a href="#equipment" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Produk</a>
+          <a href="#produk" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Tentang Kami</a>
           <a href="#layanan" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Layanan</a>
           <a href="#kontak" className="hover:text-amber-600 dark:hover:text-amber-400 transition">Hubungi Kami</a>
         </nav>

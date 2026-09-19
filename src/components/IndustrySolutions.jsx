@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, CheckCircle2, ChevronRight, Image as ImageIcon } from 'lucide-react';
-import cementPlantImg from '../assets/cement-plant-bg.png'; // 1. Import gambar
+import cementPlantImg from '../assets/cement-plant-bg.png';
 
 const industries = [
   { id: 'cement', name: 'Cement' },
@@ -17,12 +17,12 @@ const equipmentData = {
   cement: {
     title: 'Cement Plant',
     spots: [
-      { id: 'rawmill', label: 'Raw Mill', top: '55%', left: '16%' }, //[cite: 13]
-      { id: 'preheater', label: 'Preheater Tower', top: '22%', left: '26%' }, //[cite: 13]
-      { id: 'kiln', label: 'Rotary Kiln', top: '52%', left: '42%' }, //[cite: 13]
-      { id: 'cooler', label: 'Clinker Cooler', top: '65%', left: '55%' }, //[cite: 13]
-      { id: 'mill', label: 'Cement Mill', top: '62%', left: '72%' }, //[cite: 13]
-      { id: 'silo', label: 'Silo & Packing', top: '35%', left: '90%' }, //[cite: 13]
+      { id: 'rawmill', label: 'Raw Mill', top: '55%', left: '16%' },
+      { id: 'preheater', label: 'Preheater Tower', top: '24%', left: '27%' },
+      { id: 'kiln', label: 'Rotary Kiln', top: '52%', left: '43%' },
+      { id: 'cooler', label: 'Clinker Cooler', top: '65%', left: '57%' },
+      { id: 'mill', label: 'Cement Mill', top: '62%', left: '73%' },
+      { id: 'silo', label: 'Silo & Packing', top: '35%', left: '89%' },
     ],
     details: {
       rawmill: {
@@ -100,13 +100,13 @@ export default function IndustrySolutions() {
     equipmentData.cement.details.kiln;
 
   return (
-    <section className="py-16 bg-white dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    <section className="py-12 sm:py-16 bg-white dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
 
         {/* SEKSI 1: FIND PRODUCTS BY INDUSTRY */}
         <div>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight">
               Find Products by Industry
             </h2>
             <a
@@ -122,11 +122,11 @@ export default function IndustrySolutions() {
             {industries.map((ind) => (
               <div
                 key={ind.id}
-                className="group relative h-40 rounded-xl overflow-hidden border border-blue-100/70 dark:border-slate-800 bg-[#F4F7FB] dark:bg-slate-900/60 flex flex-col justify-between p-3 cursor-pointer hover:border-amber-400 dark:hover:border-amber-500 transition shadow-sm"
+                className="group relative h-32 sm:h-40 rounded-xl overflow-hidden border border-blue-100/70 dark:border-slate-800 bg-[#F4F7FB] dark:bg-slate-900/60 flex flex-col justify-between p-3 cursor-pointer hover:border-amber-400 dark:hover:border-amber-500 transition shadow-sm"
               >
                 <div className="flex-1 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 group-hover:text-amber-500 transition">
-                  <ImageIcon className="w-8 h-8 stroke-[1.5] mb-1.5 opacity-60" />
-                  <span className="text-[9px] font-bold tracking-wider uppercase opacity-75 text-center">
+                  <ImageIcon className="w-7 h-7 sm:w-8 sm:h-8 stroke-[1.5] mb-1.5 opacity-60" />
+                  <span className="text-[8px] sm:text-[9px] font-bold tracking-wider uppercase opacity-75 text-center">
                     Asset Placeholder
                   </span>
                 </div>
@@ -141,28 +141,28 @@ export default function IndustrySolutions() {
         </div>
 
         {/* SEKSI 2: START FROM YOUR EQUIPMENT */}
-        <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+        <div className="border-t border-slate-200 dark:border-slate-800 pt-10 sm:pt-12">
           <div className="mb-6">
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight">
               Start From Your Equipment
             </h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
               Select your industry, then explore equipment and find the right products.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start bg-slate-50 dark:bg-slate-900/50 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start bg-slate-50 dark:bg-slate-900/50 p-3.5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800">
 
-            {/* Navigasi Kiri */}
-            <div className="lg:col-span-2 flex lg:flex-col gap-1 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
+            {/* Navigasi Kategori Industri */}
+            <div className="lg:col-span-2 flex lg:flex-col gap-1 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 no-scrollbar">
               {['Cement Plant', 'Power Plant', 'Mining', 'Steel Plant', 'Palm Oil Mill', 'Chemical Plant'].map((name, idx) => (
                 <button
                   key={name}
                   type="button"
                   onClick={() => setSelectedIndustry('cement')}
-                  className={`text-left px-3.5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition whitespace-nowrap lg:whitespace-normal border-l-4 ${
+                  className={`text-left px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition whitespace-nowrap lg:whitespace-normal border-b-2 lg:border-b-0 lg:border-l-4 shrink-0 ${
                     idx === 0
-                      ? 'border-amber-500 bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-400 shadow-sm'
+                      ? 'border-amber-500 bg-white dark:bg-slate-800 text-amber-600 dark:text-amber-400 shadow-sm font-bold'
                       : 'border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800/40'
                   }`}
                 >
@@ -171,60 +171,93 @@ export default function IndustrySolutions() {
               ))}
             </div>
 
-            {/* Render 3D Isometrik Tengah */}
-            <div className="lg:col-span-7 relative min-h-[320px] sm:min-h-[420px] flex items-center justify-center bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/60 p-4 overflow-hidden shadow-inner">
-              <img
-                src={cementPlantImg}
-                alt="Cement Plant 3D Model"
-                className="w-full h-auto max-h-[360px] object-contain select-none"
-              />
-
-              {/* Pin Interaktif */}
-              {equipmentData.cement.spots.map((spot) => (
-                <div
-                  key={spot.id}
-                  style={{ top: spot.top, left: spot.left }}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer z-10"
-                  onClick={() => setSelectedEquipment(spot.id)}
-                >
-                  <span
-                    className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded shadow mb-1 whitespace-nowrap border transition ${
+            {/* Bagian Visual Diagram Model & Pin Interaktif */}
+            <div className="lg:col-span-7 flex flex-col gap-2">
+              
+              {/* Selector Tombol Mesin Cepat Khusus Mobile */}
+              <div className="flex sm:hidden items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+                {equipmentData.cement.spots.map((spot) => (
+                  <button
+                    key={spot.id}
+                    type="button"
+                    onClick={() => setSelectedEquipment(spot.id)}
+                    className={`px-2.5 py-1.5 rounded-lg text-[11px] font-bold whitespace-nowrap border transition shrink-0 ${
                       spot.id === selectedEquipment
-                        ? 'bg-amber-500 text-slate-950 border-amber-400 font-black scale-105'
-                        : 'bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:border-amber-400'
+                        ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-sm'
+                        : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
                     }`}
                   >
                     {spot.label}
-                  </span>
-                  <div className="relative flex items-center justify-center">
-                    {spot.id === selectedEquipment && (
-                      <span className="animate-ping absolute inline-flex h-6 w-6 rounded-full bg-amber-400 opacity-75" />
-                    )}
+                  </button>
+                ))}
+              </div>
+
+              {/* Area Gambar dengan Pin Koordinat Terkunci */}
+              <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] flex items-center justify-center bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/60 p-2 sm:p-4 overflow-hidden shadow-inner">
+                <img
+                  src={cementPlantImg}
+                  alt="Cement Plant 3D Model"
+                  className="w-full h-full object-contain select-none"
+                />
+
+                {/* Titik Pin Interaktif */}
+                {equipmentData.cement.spots.map((spot) => {
+                  const isSelected = spot.id === selectedEquipment;
+                  return (
                     <div
-                      className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border-2 flex items-center justify-center transition shadow-sm ${
-                        spot.id === selectedEquipment
-                          ? 'bg-amber-500 border-white ring-4 ring-amber-300/40 scale-110'
-                          : 'bg-white dark:bg-slate-800 border-slate-600 group-hover:border-amber-500'
-                      }`}
+                      key={spot.id}
+                      style={{ top: spot.top, left: spot.left }}
+                      className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer z-10"
+                      onClick={() => setSelectedEquipment(spot.id)}
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-slate-900 dark:bg-white" />
+                      {/* Label Teks: Hanya muncul di layar Desktop / Tablet agar mobile tidak bertumpuk */}
+                      <span
+                        className={`hidden sm:block text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded shadow mb-1 whitespace-nowrap border transition ${
+                          isSelected
+                            ? 'bg-amber-500 text-slate-950 border-amber-400 font-black scale-105'
+                            : 'bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:border-amber-400'
+                        }`}
+                      >
+                        {spot.label}
+                      </span>
+
+                      {/* Lingkaran Titik Pin */}
+                      <div className="relative flex items-center justify-center">
+                        {isSelected && (
+                          <span className="animate-ping absolute inline-flex h-4 w-4 sm:h-6 sm:w-6 rounded-full bg-amber-400 opacity-75" />
+                        )}
+                        <div
+                          className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full border-2 flex items-center justify-center transition shadow-sm ${
+                            isSelected
+                              ? 'bg-amber-500 border-white ring-2 sm:ring-4 ring-amber-300/40 scale-110'
+                              : 'bg-white dark:bg-slate-800 border-slate-600 group-hover:border-amber-500'
+                          }`}
+                        >
+                          <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-slate-900 dark:bg-white" />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  );
+                })}
+              </div>
+
+              <div className="flex sm:hidden items-center justify-between text-[10px] text-slate-400 px-1">
+                <span>Dipilih: <strong className="text-amber-500">{currentEquipment.name}</strong></span>
+                <span>Ketuk titik atau tombol di atas</span>
+              </div>
             </div>
 
             {/* Detail Produk Kanan */}
-            <div className="lg:col-span-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-5 shadow-sm space-y-4">
-              <div className="h-32 rounded-lg border border-blue-100/70 dark:border-slate-700 bg-[#F4F7FB] dark:bg-slate-900/60 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500">
-                <ImageIcon className="w-7 h-7 stroke-[1.5] mb-1 opacity-60" />
-                <span className="text-[9px] font-bold tracking-wider uppercase opacity-75">
+            <div className="lg:col-span-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 sm:p-5 shadow-sm space-y-4">
+              <div className="h-28 sm:h-32 rounded-lg border border-blue-100/70 dark:border-slate-700 bg-[#F4F7FB] dark:bg-slate-900/60 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500">
+                <ImageIcon className="w-6 h-6 sm:w-7 sm:h-7 stroke-[1.5] mb-1 opacity-60" />
+                <span className="text-[8px] sm:text-[9px] font-bold tracking-wider uppercase opacity-75">
                   Asset Placeholder
                 </span>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                   {currentEquipment.name}
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -242,10 +275,12 @@ export default function IndustrySolutions() {
               </ul>
 
               <a
-                href="#products"
+                href={`https://wa.me/6285880427199?text=${encodeURIComponent(`Halo Tim Sales, saya ingin konsultasi kebutuhan produk untuk area ${currentEquipment.name} (${selectedIndustry.toUpperCase()}).`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full mt-2 inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 px-4 rounded-lg text-xs transition shadow-sm"
               >
-                <span>View Products</span>
+                <span>Minta Penawaran Area Ini</span>
                 <ChevronRight className="w-4 h-4" />
               </a>
             </div>

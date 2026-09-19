@@ -2,7 +2,6 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import IndustrySolutions from './components/IndustrySolutions';
-import EquipmentSection from './components/EquipmentSection';
 import ProductSelectorSection from './components/ProductSelectorSection';
 import Footer from './components/Footer';
 
@@ -14,7 +13,6 @@ export default function App() {
       <main>
         <Hero />
         <IndustrySolutions />
-        <EquipmentSection />
         <ProductSelectorSection />
       </main>
 
