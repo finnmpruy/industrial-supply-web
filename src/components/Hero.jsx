@@ -81,14 +81,17 @@ export default function Hero() {
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <button
-              type="button"
-              onClick={() => {
-                window.location.href = '/products';
-              }}
-              className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs sm:text-sm px-5 py-3 rounded-lg transition shadow-sm cursor-pointer inline-flex items-center gap-2"
-            >
-              <span>Explore Products</span>
-              <span>→</span>
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById('product-selector');
+                    if (el) {
+                      el.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs sm:text-sm px-5 py-3 rounded-lg transition shadow-sm cursor-pointer inline-flex items-center gap-2"
+                >
+                  <span>Explore Products</span>
+                  <span>→</span>
             </button>
 
             <button 

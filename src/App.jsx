@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import QuickSearch from './components/QuickSearch';
@@ -9,6 +9,17 @@ import ProductsPage from './pages/ProductsPage';
 import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
 import Footer from './components/Footer';
+
+// Komponen penolong untuk reset scroll ke paling atas setiap kali pindah halaman
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function HomePage() {
   return (
@@ -24,6 +35,9 @@ function HomePage() {
 export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#070B14] transition-colors duration-200">
+      {/* 1. Ditaruh tepat di sini di dalam App */}
+      <ScrollToTop />
+
       <Navbar />
       
       <Routes>

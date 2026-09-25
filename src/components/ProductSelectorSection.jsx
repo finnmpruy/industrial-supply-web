@@ -18,7 +18,7 @@ export default function ProductSelectorSection() {
     <section className="w-full bg-white dark:bg-[#070B14] text-slate-800 dark:text-slate-200 transition-colors duration-200">
       
       {/* 1. ENGINEERING PRODUCT SELECTOR BANNER */}
-      <div className="relative overflow-hidden bg-slate-950 text-white py-14 sm:py-16">
+      <div id="product-selector" className="relative overflow-hidden bg-slate-950 text-white py-14 sm:py-16">
         <img
           src={industryBg}
           alt="Engineering Background"
