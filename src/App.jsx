@@ -1,42 +1,35 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+
+// 1. Layout Global
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import QuickSearch from './components/QuickSearch';
-import IndustrySolutions from './components/IndustrySolutions';
-import ProductSelectorSection from './components/ProductSelectorSection';
+import Footer from './components/Footer';
+
+// 2. Pages
+import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
-import Footer from './components/Footer';
 
-// Komponen penolong untuk reset scroll ke paling atas setiap kali pindah halaman
-function ScrollToTop() {
+// Helper Reset Scroll saat berpindah halaman
+function RouteScrollReset() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   }, [pathname]);
 
   return null;
 }
 
-function HomePage() {
-  return (
-    <main>
-      <Hero />
-      <QuickSearch />
-      <IndustrySolutions />
-      <ProductSelectorSection />
-    </main>
-  );
-}
-
 export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#070B14] transition-colors duration-200">
-      {/* 1. Ditaruh tepat di sini di dalam App */}
-      <ScrollToTop />
+      <RouteScrollReset />
 
       <Navbar />
       

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   ArrowRight, 
   Headphones, 
@@ -9,9 +9,10 @@ import {
   Image as ImageIcon 
 } from 'lucide-react';
 import industryBg from '../assets/industry-bg.jpg';
+import ProductSelectorModal from './ProductSelectorModal';
 
 export default function ProductSelectorSection() {
-  // 10 placeholder item untuk digandakan agar loop berjalan mulus tanpa jeda
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const placeholders = Array.from({ length: 10 });
 
   return (
@@ -41,13 +42,14 @@ export default function ProductSelectorSection() {
                 Answer a few operating-condition questions and identify suitable products for your application.
               </p>
               <div className="pt-2">
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-5 py-3 rounded-lg text-xs sm:text-sm transition shadow-lg shadow-amber-500/20"
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(true)}
+                  className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-5 py-3 rounded-lg text-xs sm:text-sm transition shadow-lg shadow-amber-500/20 cursor-pointer"
                 >
                   <span>Start Product Selection</span>
                   <ArrowRight className="w-4 h-4" />
-                </a>
+                </button>
               </div>
             </div>
 
@@ -90,7 +92,7 @@ export default function ProductSelectorSection() {
         </div>
       </div>
 
-      {/* 2. TRUSTED BY INDUSTRY LEADERS (AUTO SLIDE INFINITE LOOP DARI KANAN KE KIRI) */}
+      {/* 2. TRUSTED BY INDUSTRY LEADERS */}
       <div className="py-12 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-[#0A0F1D] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
           <div className="flex items-center justify-between">
@@ -104,7 +106,7 @@ export default function ProductSelectorSection() {
           </div>
         </div>
 
-        {/* Jalur Marquee dengan Efek Fade di Ujung Kiri & Kanan */}
+        {/* Marquee Loop */}
         <div className="relative w-full overflow-hidden">
           <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-slate-50/90 dark:from-[#0A0F1D] to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-slate-50/90 dark:from-[#0A0F1D] to-transparent z-10 pointer-events-none" />
@@ -139,38 +141,44 @@ export default function ProductSelectorSection() {
 
           <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto">
             <button
-                type="button"
-                onClick={() => {
-                  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                  const text = encodeURIComponent("Halo, saya ingin Request a Quote.");
-                  const url = isMobile 
-                    ? `https://wa.me/6285880427199?text=${text}` 
-                    : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
-                  window.open(url, "_blank", "noopener,noreferrer");
-                }}
-                className="flex-1 sm:flex-none text-center bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-lg transition cursor-pointer"
-              >
-                Request a Quote →
-              </button>
+              type="button"
+              onClick={() => {
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                const text = encodeURIComponent("Halo, saya ingin Request a Quote.");
+                const url = isMobile 
+                  ? `https://wa.me/6285880427199?text=${text}` 
+                  : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+                window.open(url, "_blank", "noopener,noreferrer");
+              }}
+              className="flex-1 sm:flex-none text-center bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-lg transition cursor-pointer"
+            >
+              Request a Quote →
+            </button>
 
-              <button
-                type="button"
-                onClick={() => {
-                  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                  const text = encodeURIComponent("Halo, saya ingin Talk to an Engineer.");
-                  const url = isMobile 
-                    ? `https://wa.me/6285880427199?text=${text}` 
-                    : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
-                  window.open(url, "_blank", "noopener,noreferrer");
-                }}
-                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm px-5 py-3 rounded-lg transition cursor-pointer"
-                >
-                <Headphones className="w-4 h-4 text-amber-500" />
-                <span>Talk to an Engineer</span>
-              </button>
+            <button
+              type="button"
+              onClick={() => {
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                const text = encodeURIComponent("Halo, saya ingin Talk to an Engineer.");
+                const url = isMobile 
+                  ? `https://wa.me/6285880427199?text=${text}` 
+                  : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+                window.open(url, "_blank", "noopener,noreferrer");
+              }}
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm px-5 py-3 rounded-lg transition cursor-pointer"
+            >
+              <Headphones className="w-4 h-4 text-amber-500" />
+              <span>Talk to an Engineer</span>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Komponen Modal Product Selector */}
+      <ProductSelectorModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       {/* Animasi CSS Loop Scroll */}
       <style>{`

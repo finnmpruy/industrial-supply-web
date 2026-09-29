@@ -75,8 +75,14 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs text-slate-600 dark:text-slate-400">
               <li>
-                <Link to="/" className="hover:text-amber-500 transition">Beranda</Link>
-              </li>
+                  <a 
+                    href="/" 
+                    onClick={(e) => handleHomeClick(e)} 
+                    className="hover:text-amber-500 transition"
+                  >
+                    Beranda
+                  </a>
+                </li>
               <li>
                 <Link to="/industries" className="hover:text-amber-500 transition">Sektor Industri</Link>
               </li>
