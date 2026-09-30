@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 // 2. Pages
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
+import IndustryPage from './pages/IndustryPage';
 import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
 
@@ -32,10 +33,11 @@ export default function App() {
       <RouteScrollReset />
 
       <Navbar />
-      
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/industries" element={<IndustryPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact" element={<ContactPage />} />
       </Routes>

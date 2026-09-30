@@ -1,9 +1,26 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, FileText, UserCheck, Download, ArrowRight, Clock, CheckCircle2, MessageSquare, Image as ImageIcon } from 'lucide-react';
+import { 
+  Search, 
+  FileText, 
+  UserCheck, 
+  Download, 
+  ArrowRight, 
+  Clock, 
+  CheckCircle2, 
+  MessageSquare, 
+  Image as ImageIcon,
+  X,
+  ChevronRight,
+  ShieldAlert,
+  AlertTriangle,
+  Wrench,
+  Thermometer
+} from 'lucide-react';
 
 export default function QuickSearch() {
   const [query, setQuery] = useState('');
+  const [activeModalData, setActiveModalData] = useState(null);
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -25,7 +42,13 @@ export default function QuickSearch() {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  // Data Solutions
+  // Navigasi ke Halaman Produk Berdasarkan Masalah Spesifik
+  const handleSelectProblem = (categoryQuery, problemQuery) => {
+    setActiveModalData(null);
+    navigate(`/products?category=${categoryQuery}&problem=${problemQuery}`);
+  };
+
+  // Data Solutions (Tetap menjaga struktur tampilan luar + ditambahkan data opsi problem/aplikasi)
   const solutions = [
     {
       id: 'filtration',
@@ -36,6 +59,32 @@ export default function QuickSearch() {
       linkText: 'Explore Filtration',
       categoryQuery: 'filtration',
       image: null, // Asset Placeholder
+      problems: [
+        {
+          id: 'p-dust-leak',
+          title: 'Kebocoran Debu & Emisi Melebihi Threshold',
+          desc: 'Filter bag sering robek/tersumbat cepat akibat debu abrasif & tekanan tinggi.',
+          icon: ShieldAlert,
+          recommendedProducts: ['Woven Fiberglass Filter Bag', 'PTFE Membrane Coated Bag', 'Galvanized Star Cages'],
+          targetQuery: 'dust-collector-bags',
+        },
+        {
+          id: 'p-acid-gas',
+          title: 'Paparan Gas Asam Korosif (SOx / NOx)',
+          desc: 'Gas hasil pembakaran merusak kantong filter standar di area Baghouse / Preheater.',
+          icon: AlertTriangle,
+          recommendedProducts: ['P84 / PPS Acid Proof Felt Bags', 'SS316 Anti-Corrosion Filter Cages'],
+          targetQuery: 'acid-proof-filtration',
+        },
+        {
+          id: 'p-pulse-valve',
+          title: 'Pembersihan Filter Tidak Optimal (Pulse Jet Weak)',
+          desc: 'Tekanan hembusan angin pulse valve berkurang memicu penumpukan caking debu.',
+          icon: Wrench,
+          recommendedProducts: ['Diaphragm Pulse Valves 1.5"', 'Pneumatic Solenoid Controls'],
+          targetQuery: 'pulse-valves',
+        },
+      ],
     },
     {
       id: 'fasteners',
@@ -43,9 +92,27 @@ export default function QuickSearch() {
       status: 'ongoing', // On Going
       badgeText: 'On Going',
       desc: 'Industrial bolts, nuts and fastening solutions for critical applications.',
-      linkText: 'Katalog Disiapkan',
+      linkText: 'Explore Fasteners',
       categoryQuery: 'fasteners',
       image: null, // Asset Placeholder
+      problems: [
+        {
+          id: 'p-high-temp-leak',
+          title: 'Kebocoran Flange & Baut Patah Suhu Tinggi',
+          desc: 'Suhu ekstrim (300°C–600°C) di Boiler/Kiln menyebabkan baut cepat aus & flange bocor.',
+          icon: Thermometer,
+          recommendedProducts: ['ASTM A193 B7 / B16 Stud Bolts', 'Spiral Wound Gaskets SS316L'],
+          targetQuery: 'high-temp-bolting',
+        },
+        {
+          id: 'p-vibration-loose',
+          title: 'Baut Sering Kendor Akibat Getaran Ekstrem',
+          desc: 'Vibrasi terus menerus pada Crusher & Vibrating Screen membuat sambungan kendor.',
+          icon: Wrench,
+          recommendedProducts: ['HuckBolts Structural Fasteners', 'Structural Hex Bolts Grade 10.9'],
+          targetQuery: 'anti-vibration-fasteners',
+        },
+      ],
     },
     {
       id: 'consumables',
@@ -53,9 +120,27 @@ export default function QuickSearch() {
       status: 'ongoing', // On Going
       badgeText: 'On Going',
       desc: 'Essential MRO and plant maintenance products for reliable operation.',
-      linkText: 'Katalog Disiapkan',
+      linkText: 'Explore Consumables',
       categoryQuery: 'tools',
       image: null, // Asset Placeholder
+      problems: [
+        {
+          id: 'p-heavy-wear',
+          title: 'Keausan Dini Komponen Akibat Abrasi Parah',
+          desc: 'Gesekan batuan & besi pada Chute/Conveyor menyebabkan downtime penggantian tinggi.',
+          icon: ShieldAlert,
+          recommendedProducts: ['Polyurethane Belt Scraper', 'Impact Rubber Skirting', 'Hardox Wear Plates'],
+          targetQuery: 'wear-resistant-mro',
+        },
+        {
+          id: 'p-conveyor-spill',
+          title: 'Tumpahan Material & Debu Liar di Conveyor',
+          desc: 'Material tercecer di transfer point merusak bearing roller conveyor.',
+          icon: Wrench,
+          recommendedProducts: ['Dust Containment Rubber Curtains', 'Conveyor Belt Cleaners'],
+          targetQuery: 'conveyor-maintenance',
+        },
+      ],
     },
   ];
 
@@ -225,47 +310,33 @@ export default function QuickSearch() {
                     </div>
                   </div>
 
-                  {/* Tombol Aksi Bawah - Opsi 1 */}
+                  {/* Tombol Aksi Bawah */}
                   <div className="px-5 pb-5 pt-1">
                     <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
-                      {isActive ? (
-                        <>
-                          <Link 
-                            to={`/products?category=${sol.categoryQuery}`}
-                            className="inline-flex items-center justify-between w-full py-2 px-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl text-xs font-bold transition shadow-sm"
-                          >
-                            <span>{sol.linkText}</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
+                      <button 
+                        type="button"
+                        onClick={() => setActiveModalData(sol)}
+                        className="inline-flex items-center justify-between w-full py-2 px-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl text-xs font-bold transition shadow-sm cursor-pointer"
+                      >
+                        <span>{sol.linkText}</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
 
-                          {/* Opsi Tanya Sales untuk Katalog Siap */}
-                          <div className="flex items-center justify-end pt-0.5">
-                            <button
-                              type="button"
-                              onClick={() => openWhatsApp(`Halo Sales, saya ingin bertanya tentang produk kategori ${sol.title}`)}
-                              className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-500 hover:text-amber-600 dark:text-slate-400 dark:hover:text-amber-400 hover:underline cursor-pointer bg-transparent border-none p-0"
-                            >
-                              <MessageSquare className="w-3 h-3" />
-                              Tanya Sales
-                            </button>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="flex items-center justify-between text-xs py-1">
-                          <span className="font-semibold text-slate-400 dark:text-slate-500 text-[11px]">
-                            {sol.linkText}
-                          </span>
-                          
-                          <button
-                            type="button"
-                            onClick={() => openWhatsApp(`Halo Sales, saya ingin bertanya tentang produk kategori ${sol.title}`)}
-                            className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400 hover:underline cursor-pointer bg-transparent border-none p-0"
-                          >
-                            <MessageSquare className="w-3 h-3" />
-                            Tanya Sales
-                          </button>
-                        </div>
-                      )}
+                      {/* Tanya Sales */}
+                      <div className="flex items-center justify-between pt-0.5">
+                        <span className="font-semibold text-slate-400 dark:text-slate-500 text-[11px]">
+                          {isActive ? '' : 'Katalog Disiapkan'}
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={() => openWhatsApp(`Halo Sales, saya ingin bertanya tentang produk kategori ${sol.title}`)}
+                          className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400 hover:underline cursor-pointer bg-transparent border-none p-0"
+                        >
+                          <MessageSquare className="w-3 h-3" />
+                          Tanya Sales
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -276,6 +347,113 @@ export default function QuickSearch() {
         </div>
 
       </div>
+
+      {/* MODAL PILIH KELUHAN / PROBLEM CUSTOMER */}
+      {activeModalData && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-2xl space-y-5">
+            
+            {/* Modal Header */}
+            <div className="flex items-start justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+              <div>
+                <span className="text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 tracking-wider">
+                  Solusi Aplikasi & Problem
+                </span>
+                <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white mt-1.5">
+                  Apa Keluhan Spesifik di Area {activeModalData.title}?
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Pilih masalah yang sedang dihadapi di pabrik Anda untuk menemukan produk rekomendasi yang presisi.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setActiveModalData(null)}
+                className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* List Keluhan / Problem Cards */}
+            <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
+              {activeModalData.problems.map((prob) => {
+                const IconComp = prob.icon;
+                return (
+                  <div
+                    key={prob.id}
+                    className="p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 hover:border-amber-500 dark:hover:border-amber-500 transition group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                  >
+                    <div className="space-y-1.5 flex-1">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
+                          <IconComp className="w-4 h-4" />
+                        </div>
+                        <h4 className="text-sm font-black text-slate-900 dark:text-white group-hover:text-amber-500 transition">
+                          {prob.title}
+                        </h4>
+                      </div>
+                      
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pl-7">
+                        {prob.desc}
+                      </p>
+
+                      {/* Tag Produk Rekomendasi */}
+                      <div className="pl-7 flex flex-wrap gap-1.5 pt-1">
+                        {prob.recommendedProducts.map((prod) => (
+                          <span
+                            key={prod}
+                            className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700"
+                          >
+                            ✓ {prod}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tombol Pilih Masalah Ini */}
+                    <div className="flex sm:flex-col gap-2 w-full sm:w-auto shrink-0 pl-7 sm:pl-0 border-t sm:border-t-0 border-slate-200/60 dark:border-slate-700/60 pt-3 sm:pt-0">
+                      <button
+                        type="button"
+                        onClick={() => handleSelectProblem(activeModalData.categoryQuery, prob.targetQuery)}
+                        className="flex-1 sm:flex-initial py-2 px-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap shadow-xs"
+                      >
+                        <span>Lihat Produk</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => openWhatsApp(`Halo Sales, pabrik kami mengalami keluhan: "${prob.title}" di area ${activeModalData.title}. Mohon saran produk & penawarannya.`)}
+                        className="py-2 px-3.5 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-amber-500 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1 cursor-pointer whitespace-nowrap"
+                      >
+                        <MessageSquare className="w-3.5 h-3.5 text-amber-500" />
+                        <span>Konsultasi</span>
+                      </button>
+                    </div>
+
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500">
+              <span>Punya kendala lain yang tidak tercantum?</span>
+              <button
+                type="button"
+                onClick={() => openWhatsApp(`Halo Sales, saya ada kendala kustom operasional pabrik untuk area ${activeModalData.title}.`)}
+                className="font-bold text-amber-500 hover:underline cursor-pointer bg-transparent border-none p-0"
+              >
+                Hubungi Sales Engineer →
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </section>
   );
 }

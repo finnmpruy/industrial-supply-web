@@ -65,48 +65,44 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Menu Navigasi Desktop */}
-        <nav className="hidden xl:flex items-center gap-6 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
-          <a 
-            href="/" 
-            onClick={(e) => handleHomeClick(e)}
-            className={`transition ${isActive('/') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
-          >
-            Beranda
-          </a>
-          <a 
-            href="/#industri" 
-            onClick={(e) => handleHomeClick(e, '#industri')}
-            className="hover:text-amber-600 dark:hover:text-amber-400 transition"
-          >
-            Industri
-          </a>
-          <a 
-            href="/#equipment" 
-            onClick={(e) => handleHomeClick(e, '#equipment')}
-            className="hover:text-amber-600 dark:hover:text-amber-400 transition"
-          >
-            Equipment
-          </a>
-          <Link 
-            to="/products" 
-            className={`transition ${isActive('/products') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
-          >
-            Katalog Produk
-          </Link>
-          <Link 
-            to="/services" 
-            className={`transition ${isActive('/services') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
-          >
-            Layanan
-          </Link>
-          <Link 
-            to="/contact" 
-            className={`transition ${isActive('/contact') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
-          >
-            Hubungi Kami
-          </Link>
-        </nav>
+       {/* Menu Navigasi Desktop */}
+          <nav className="hidden xl:flex items-center gap-6 2xl:gap-7 text-xs 2xl:text-sm font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
+            <Link 
+              to="/" 
+              className={`transition ${isActive('/') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
+            >
+              Beranda
+            </Link>
+
+            {/* NAVIGASI INDUSTRI & EQUIPMENT (Menggabungkan keduanya) */}
+            <Link 
+              to="/industries" 
+              className={`transition ${isActive('/industries') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
+            >
+              Industri & Equipment
+            </Link>
+
+            <Link 
+              to="/products" 
+              className={`transition ${isActive('/products') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
+            >
+              Katalog Produk
+            </Link>
+
+            <Link 
+              to="/services" 
+              className={`transition ${isActive('/services') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
+            >
+              Layanan
+            </Link>
+
+            <Link 
+              to="/contact" 
+              className={`transition ${isActive('/contact') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'hover:text-amber-600 dark:hover:text-amber-400'}`}
+            >
+              Hubungi Kami
+            </Link>
+          </nav>
 
         {/* Action Button & Toggles */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
@@ -188,70 +184,70 @@ export default function Navbar() {
       )}
 
       {/* Dropdown Menu Mobile */}
-      {isMobileMenuOpen && (
-        <div className="xl:hidden w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B1120] px-5 py-4 space-y-3 shadow-xl">
-          <a 
-            href="/" 
-            onClick={(e) => handleHomeClick(e)} 
-            className={`block py-2 text-sm font-bold transition ${isActive('/') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
-          >
-            Beranda
-          </a>
-          <a 
-            href="/#industri" 
-            onClick={(e) => handleHomeClick(e, '#industri')} 
-            className="block py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-amber-500"
-          >
-            Industri
-          </a>
-          <a 
-            href="/#equipment" 
-            onClick={(e) => handleHomeClick(e, '#equipment')} 
-            className="block py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-amber-500"
-          >
-            Equipment
-          </a>
-          <Link 
-            to="/products" 
-            onClick={() => setIsMobileMenuOpen(false)} 
-            className={`block py-2 text-sm font-bold transition ${isActive('/products') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
-          >
-            Katalog Produk
-          </Link>
-          <Link 
-            to="/services" 
-            onClick={() => setIsMobileMenuOpen(false)} 
-            className={`block py-2 text-sm font-bold transition ${isActive('/services') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
-          >
-            Layanan
-          </Link>
-          <Link 
-            to="/contact" 
-            onClick={() => setIsMobileMenuOpen(false)} 
-            className={`block py-2 text-sm font-bold transition ${isActive('/contact') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
-          >
-            Hubungi Kami
-          </Link>
-          
-          <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-            <button
-              type="button"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                const text = encodeURIComponent("Halo Tim Sales, saya ingin meminta penawaran harga (RFQ).");
-                const url = isMobile 
-                  ? `https://wa.me/6285880427199?text=${text}` 
-                  : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
-                window.open(url, "_blank", "noopener,noreferrer");
-              }}
-              className="w-full py-3 px-4 flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-sm transition shadow-sm cursor-pointer"
+        {isMobileMenuOpen && (
+          <div className="xl:hidden w-full border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0B1120] px-5 py-4 space-y-3 shadow-xl">
+            
+            <Link 
+              to="/" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className={`block py-2 text-sm font-bold transition ${isActive('/') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
             >
-              Minta Penawaran
-            </button>
+              Beranda
+            </Link>
+
+            {/* NAVIGASI INDUSTRI (Menggabungkan Industri & Equipment) */}
+            <Link 
+              to="/industries" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className={`block py-2 text-sm font-bold transition ${isActive('/industries') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
+            >
+              Industri & Equipment
+            </Link>
+
+            <Link 
+              to="/products" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className={`block py-2 text-sm font-bold transition ${isActive('/products') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
+            >
+              Katalog Produk
+            </Link>
+
+            <Link 
+              to="/services" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className={`block py-2 text-sm font-bold transition ${isActive('/services') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
+            >
+              Layanan
+            </Link>
+
+            <Link 
+              to="/contact" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className={`block py-2 text-sm font-bold transition ${isActive('/contact') ? 'text-amber-500' : 'text-slate-800 dark:text-slate-200'}`}
+            >
+              Hubungi Kami
+            </Link>
+            
+            <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                  const text = encodeURIComponent("Halo Tim Sales, saya ingin meminta penawaran harga (RFQ).");
+                  const url = isMobile 
+                    ? `https://wa.me/6285880427199?text=${text}` 
+                    : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+                  window.open(url, "_blank", "noopener,noreferrer");
+                }}
+                className="w-full py-3 px-4 flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl text-sm transition shadow-sm cursor-pointer"
+              >
+                Minta Penawaran
+              </button>
+            </div>
+
           </div>
-        </div>
-      )}
+        )}
     </header>
   );
 }

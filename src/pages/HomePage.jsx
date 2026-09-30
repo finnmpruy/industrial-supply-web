@@ -9,7 +9,7 @@ export default function HomePage() {
     <main>
       <Hero />
       <QuickSearch />
-      <IndustrySolutions />
+      <IndustrySolutions showViewAll={true} />
       <ProductSelectorSection />
     </main>
   );
