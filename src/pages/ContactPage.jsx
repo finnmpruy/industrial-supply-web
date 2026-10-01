@@ -10,8 +10,21 @@ export default function ContactPage() {
     requirement: '',
   });
 
+  // Handler untuk membuka WhatsApp tanpa memicu tooltip URL browser
+  const handleQuickResponse = () => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const message = 'Halo Sales Engineer, saya butuh respon cepat untuk diskusi produk & penawaran.';
+    const text = encodeURIComponent(message);
+    const url = isMobile 
+      ? `https://wa.me/6285880427199?text=${text}` 
+      : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+    
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     const text = encodeURIComponent(
       `*FORM PERMINTAAN PENAWARAN (RFQ)*\n\n` +
       `Perusahaan: ${formData.company}\n` +
@@ -20,7 +33,11 @@ export default function ContactPage() {
       `No. Telp/WA: ${formData.phone}\n` +
       `Kebutuhan: ${formData.requirement}`
     );
-    window.open(`https://wa.me/6285880427199?text=${text}`, '_blank');
+    const url = isMobile
+      ? `https://wa.me/6285880427199?text=${text}`
+      : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -52,7 +69,7 @@ export default function ContactPage() {
                 <div>
                   <h2 className="text-sm font-bold text-slate-900 dark:text-white">Alamat Kantor & Gudang</h2>
                   <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                 Kawasan Pergudangan Terpadu Blok A No. 12, Jl. Contoh Industri Utama, Jakarta Raya, Indonesia.
+                    Kawasan Pergudangan Terpadu Blok A No. 12, Jl. Contoh Industri Utama, Jakarta Raya, Indonesia.
                   </p>
                 </div>
               </div>
@@ -64,7 +81,7 @@ export default function ContactPage() {
                 <div>
                   <h2 className="text-sm font-bold text-slate-900 dark:text-white">Telepon & WhatsApp</h2>
                   <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                    +62 812-XXXX-XXXX
+                    +62 858-8042-7199
                   </p>
                 </div>
               </div>
@@ -96,20 +113,20 @@ export default function ContactPage() {
 
             </div>
 
-            {/* Quick Action Banner */}
+            {/* Quick Action Banner (Diubah ke Tag Button agar Bersih) */}
             <div className="p-6 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-between gap-4">
               <div>
                 <h2 className="font-black text-sm">Butuh Respon Cepat?</h2>
                 <p className="text-xs font-semibold mt-0.5 opacity-90">Terhubung langsung dengan Sales Engineer via WhatsApp</p>
               </div>
-              <a
-                href="https://wa.me/6285880427199"
-                target="_blank"
-                rel="noreferrer"
-                className="p-3 bg-slate-950 text-white rounded-xl hover:bg-slate-800 transition shrink-0"
+              <button
+                type="button"
+                onClick={handleQuickResponse}
+                className="p-3 bg-slate-950 text-white rounded-xl hover:bg-slate-800 transition shrink-0 cursor-pointer border-none"
+                title="Hubungi Sales Engineer"
               >
                 <MessageSquare className="w-5 h-5" />
-              </a>
+              </button>
             </div>
           </div>
 

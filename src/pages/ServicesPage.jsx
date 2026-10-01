@@ -29,6 +29,18 @@ const services = [
 ];
 
 export default function ServicesPage() {
+  // Handler untuk membuka WhatsApp tanpa memicu tooltip URL browser
+  const handleConsultation = (serviceTitle) => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const message = `Halo Tim Teknis, saya ingin konsultasi layanan industri: ${serviceTitle}`;
+    const text = encodeURIComponent(message);
+    const url = isMobile 
+      ? `https://wa.me/6285880427199?text=${text}` 
+      : `https://web.whatsapp.com/send?phone=6285880427199&text=${text}`;
+    
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div className="py-12 sm:py-20 bg-slate-50 dark:bg-[#070B14] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -76,15 +88,14 @@ export default function ServicesPage() {
                 </div>
 
                 <div className="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800/80">
-                  <a
-                    href="https://wa.me/6285880427199?text=Halo%20Tim%20Teknis%2C%20saya%20ingin%20konsultasi%20layanan%20industri"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-xs font-bold text-amber-600 dark:text-amber-400 hover:text-amber-500 transition"
+                  <button
+                    type="button"
+                    onClick={() => handleConsultation(svc.title)}
+                    className="inline-flex items-center gap-2 text-xs font-bold text-amber-600 dark:text-amber-400 hover:text-amber-500 transition cursor-pointer bg-transparent border-none p-0"
                   >
                     <span>Konsultasikan Kebutuhan Teknis</span>
                     <ArrowRight className="w-4 h-4" />
-                  </a>
+                  </button>
                 </div>
               </div>
             );
